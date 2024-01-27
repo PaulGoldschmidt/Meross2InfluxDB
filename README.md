@@ -45,7 +45,13 @@ In order to test the meross setup and see all devices that are currently availab
      INFLUXDB_TOKEN=your_influxdb_token
      INFLUXDB_ORG=your_influxdb_org
      INFLUXDB_BUCKET=your_influxdb_bucket
+     API_BASE_URL=api_base_region
      ```
+    There are the following API Base regions, the one fitting your location:
+    1. Asia-Pacific: "iotx-ap.meross.com"
+    2. Europe: "iotx-eu.meross.com"
+    3. US: "iotx-us.meross.com"
+
    - If not done yet: **Fill out the device names that you got by running [deviceinfo.py](deviceinfo.py) into line 31 in [connector.py](connector.py).**
 
 4. **Running the Script:**

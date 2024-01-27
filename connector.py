@@ -10,28 +10,32 @@ from meross_iot.manager import MerossManager
 
 def load_credentials(filename):
     credentials = {}
-    with open(filename, 'r') as file:
-        for line in file:
-            parts = line.strip().split('=')
-            key = parts[0]
-            value = '='.join(parts[1:])  # This handles the case where the value contains '='
-            credentials[key] = value
+    try:
+        with open(filename, 'r') as file:
+            for line in file:
+                parts = line.strip().split('=')
+                key = parts[0]
+                value = '='.join(parts[1:])  # This handles the case where the value contains '='
+                credentials[key] = value
+    except FileNotFoundError:
+        print(f"Using system environment credentials.")
+        return {}
     return credentials
 
-
 credentials = load_credentials('credentials.txt')
-EMAIL = credentials['MEROSS_EMAIL']
-PASSWORD = credentials['MEROSS_PASSWORD']
-INFLUXDB_URL = credentials['INFLUXDB_URL']
-INFLUXDB_TOKEN = credentials['INFLUXDB_TOKEN']
-INFLUXDB_ORG = credentials['INFLUXDB_ORG']
-INFLUXDB_BUCKET = credentials['INFLUXDB_BUCKET']
+EMAIL = os.environ.get('MEROSS_EMAIL') or credentials['MEROSS_EMAIL']
+PASSWORD = os.environ.get('MEROSS_PASSWORD') or credentials['MEROSS_PASSWORD']
+INFLUXDB_URL = os.environ.get('INFLUXDB_URL') or credentials['INFLUXDB_URL']
+INFLUXDB_TOKEN = os.environ.get('INFLUXDB_TOKEN') or credentials['INFLUXDB_TOKEN']
+INFLUXDB_ORG = os.environ.get('INFLUXDB_ORG') or credentials['INFLUXDB_ORG']
+INFLUXDB_BUCKET = os.environ.get('INFLUXDB_BUCKET') or credentials['INFLUXDB_BUCKET']
+API_BASE_URL = os.environ.get('API_BASE_URL') or credentials['API_BASE_URL']
 
 # List of device names to monitor
 device_names_to_monitor = ['PowerPlug1', 'PowerPlug2']
 
 async def main(fetch_interval):
-    http_api_client = await MerossHttpClient.async_from_user_password(api_base_url='iotx-eu.meross.com', email=EMAIL, password=PASSWORD)
+    http_api_client = await MerossHttpClient.async_from_user_password(api_base_url=API_BASE_URL, email=EMAIL, password=PASSWORD)
     manager = MerossManager(http_client=http_api_client)
     await manager.async_init()
     await manager.async_device_discovery()
@@ -44,7 +48,7 @@ async def main(fetch_interval):
             devs = [dev for dev in manager.find_devices(device_class=ElectricityMixin) if dev.name in device_names_to_monitor]
 
             if len(devs) < 1:
-                print("No electricity-capable device found...")
+                print("No device to monitor from given list found :(...")
             else:
                 for index, dev in enumerate(devs):
                     await dev.async_update()
