@@ -14,3 +14,4 @@ services:
       INFLUXDB_ORG: user_org
       INFLUXDB_BUCKET: user_bucket
       API_BASE_URL: http://user-api-base-url
+      DEVICE_NAMES_TO_MONITOR: DEVICE1,DEVICE2

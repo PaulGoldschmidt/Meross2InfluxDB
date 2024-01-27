@@ -32,7 +32,8 @@ INFLUXDB_BUCKET = os.environ.get('INFLUXDB_BUCKET') or credentials['INFLUXDB_BUC
 API_BASE_URL = os.environ.get('API_BASE_URL') or credentials['API_BASE_URL']
 
 # List of device names to monitor
-device_names_to_monitor = ['PowerPlug1', 'PowerPlug2']
+device_names_env = os.environ.get('DEVICE_NAMES_TO_MONITOR')
+device_names_to_monitor = device_names_env.split(',') if device_names_env else credentials['DEVICE_NAMES_TO_MONITOR'].split(',')
 
 async def main(fetch_interval):
     http_api_client = await MerossHttpClient.async_from_user_password(api_base_url=API_BASE_URL, email=EMAIL, password=PASSWORD)
@@ -46,9 +47,8 @@ async def main(fetch_interval):
     try:
         while True:
             devs = [dev for dev in manager.find_devices(device_class=ElectricityMixin) if dev.name in device_names_to_monitor]
-
             if len(devs) < 1:
-                print("No device to monitor from given list found :(...")
+                print("No device to monitor from given list (" + str(device_names_to_monitor) + ") found :(...")
             else:
                 for index, dev in enumerate(devs):
                     await dev.async_update()
@@ -63,11 +63,10 @@ async def main(fetch_interval):
                     voltage = float(voltage_search.group(1)) if voltage_search else None
                     current = float(current_search.group(1)) if current_search else None
 
-                    print(f"Device: {dev.name} - Power: {power} W, Voltage: {voltage} V, Current: {current} A")
-
                     # Writing data to InfluxDB
                     point = Point("meross_data").tag("device", dev.name).field("power", power).field("voltage", voltage).field("current", current)
                     write_api.write(bucket=INFLUXDB_BUCKET, org=INFLUXDB_ORG, record=point)
+                    print(f"Write to InfluxDB successful for device: {dev.name} with power: {power} W, Voltage: {voltage} V and Current: {current} A")
 
             await asyncio.sleep(fetch_interval)
 
@@ -81,6 +80,7 @@ async def main(fetch_interval):
 
 if __name__ == '__main__':
     fetch_interval = 20  # Set your desired interval in seconds
+    print("Starting MerossToInfluxDB by P3G3, Version 2.1")
     if os.name == 'nt':
         asyncio.set_event_loop_policy(asyncio.WindowsSelectorEventLoopPolicy())
     loop = asyncio.get_event_loop()

@@ -7,10 +7,16 @@ from meross_iot.manager import MerossManager
 
 def load_credentials(filename):
     credentials = {}
-    with open(filename, 'r') as file:
-        for line in file:
-            key, value = line.strip().split('=')
-            credentials[key] = value
+    try:
+        with open(filename, 'r') as file:
+            for line in file:
+                parts = line.strip().split('=')
+                key = parts[0]
+                value = '='.join(parts[1:])  # This handles the case where the value contains '='
+                credentials[key] = value
+    except FileNotFoundError:
+        print(f"Using system environment variables.")
+        return {}
     return credentials
 
 credentials = load_credentials('credentials.txt')
