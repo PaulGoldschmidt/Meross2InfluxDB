@@ -1,6 +1,7 @@
 ![Docker Image Version (latest semver)](https://img.shields.io/docker/v/quantensittich/meross2influxdb)
 ![Docker Image Size (tag)](https://img.shields.io/docker/image-size/quantensittich/meross2influxdb/latest)
 ![Docker Pulls](https://img.shields.io/docker/pulls/quantensittich/meross2influxdb)
+
 ![MerossToInfluxDB](https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExNmQ5NWZjeW9ja3I4anRoaHEzcjh2b3o2NGoyc2E5OXk5d3lhaTI3ZSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/9ADoZQgs0tyww/giphy.gif)
 # Meross2InfluxDB :chart_with_upwards_trend:
 
@@ -79,7 +80,6 @@ In order to test the meross setup and see all devices that are currently availab
      ```bash
      python connector.py
      ```
-     Replace `connector.py` with the actual name of the Python script.
 
 5. **Monitoring:**
    - The script will continuously monitor the specified Meross devices and log data to your InfluxDB database at the set interval.
