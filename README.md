@@ -1,4 +1,4 @@
-![Docker][(https://img.shields.io/docker/cloud/build/eaudeweb/scratch?label=Docker&style=flat)](https://hub.docker.com/repository/docker/quantensittich/meross2influxdb/)
+![Docker Image Version (latest semver)](https://img.shields.io/docker/v/quantensittich/meross2influxdb)
 ![MerossToInfluxDB](https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExNmQ5NWZjeW9ja3I4anRoaHEzcjh2b3o2NGoyc2E5OXk5d3lhaTI3ZSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/9ADoZQgs0tyww/giphy.gif)
 # Meross2InfluxDB :chart_with_upwards_trend:
 
