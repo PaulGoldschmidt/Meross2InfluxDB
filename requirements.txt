@@ -1,0 +1,2 @@
+meross-iot>=0.4.2.0
+influxdb-client>=1.22.0
