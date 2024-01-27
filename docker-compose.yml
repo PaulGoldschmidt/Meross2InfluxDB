@@ -1,0 +1,15 @@
+version: '3.8'
+services:
+  merosstoinfluxdb:
+    image: quantensittich/meross2influxdb:latest
+    restart: unless-stopped
+    container_name: MerossToInfluxDB
+    environment:
+      MEROSS_EMAIL: user_email@example.com
+      MEROSS_PASSWORD: user_password
+      API_BASE_URL: http://user-api-base-url
+      INFLUXDB_URL: http://user-influxdb-url
+      INFLUXDB_TOKEN: user_token
+      INFLUXDB_ORG: user_org
+      INFLUXDB_BUCKET: user_bucket
+      DEVICE_NAMES_TO_MONITOR: DEVICE1,DEVICE2
