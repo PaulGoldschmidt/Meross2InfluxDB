@@ -14,8 +14,8 @@ def load_credentials(filename):
     return credentials
 
 credentials = load_credentials('credentials.txt')
-EMAIL = credentials['EMAIL']
-PASSWORD = credentials['PASSWORD']
+EMAIL = credentials['MEROSS_EMAIL']
+PASSWORD = credentials['MEROSS_PASSWORD']
 
 
 async def main():

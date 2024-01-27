@@ -28,7 +28,7 @@ INFLUXDB_ORG = credentials['INFLUXDB_ORG']
 INFLUXDB_BUCKET = credentials['INFLUXDB_BUCKET']
 
 # List of device names to monitor
-device_names_to_monitor = ['Otti-Schreibtisch', 'Schreibtisch']
+device_names_to_monitor = ['PowerPlug1', 'PowerPlug2']
 
 async def main(fetch_interval):
     http_api_client = await MerossHttpClient.async_from_user_password(api_base_url='iotx-eu.meross.com', email=EMAIL, password=PASSWORD)
