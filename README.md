@@ -1,4 +1,6 @@
 ![Docker Image Version (latest semver)](https://img.shields.io/docker/v/quantensittich/meross2influxdb)
+![Docker Image Size (tag)](https://img.shields.io/docker/image-size/quantensittich/meross2influxdb/latest)
+![Docker Pulls](https://img.shields.io/docker/pulls/quantensittich/meross2influxdb)
 ![MerossToInfluxDB](https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExNmQ5NWZjeW9ja3I4anRoaHEzcjh2b3o2NGoyc2E5OXk5d3lhaTI3ZSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/9ADoZQgs0tyww/giphy.gif)
 # Meross2InfluxDB :chart_with_upwards_trend:
 
@@ -14,7 +16,7 @@ It comes ready-to-use in a docker package which can be used multi-platform. Out-
 
 # Recommended Installation: Docker Image :star:
 There is a multiplatform docker image for this code available on docker hub, an example setup is provided with [docker-compose.yml](docker-compose.yml). Just put the [docker-compose.yml](docker-compose.yml) _somewhere_ on your computer, change the environment variables to your setup and start the container with `docker compose up -d` (older docker installation: `docker-compose up -d`).
-If you want to use docker run instead of docker compose (not recommended!), you can use:
+If you want to use docker run instead of docker compose (not recommended! :shipit:), you can use:
 ```
 docker run -d --restart unless-stopped --name MerossToInfluxDB \
   -e MEROSS_EMAIL=user_email@example.com \
@@ -38,7 +40,7 @@ docker run -d --restart unless-stopped --name MerossToInfluxDB \
 ## Testing your meross setup & get device overview
 In order to test the meross setup and see all devices that are currently available, the script [deviceinfo.py](deviceinfo.py) is included in this repository. After filling out the [credentials.txt](credentials.txt.example) file with your credentials and removing the .example file ending, run the device info script once to get an overview over all avaiable devices. For each device you want to write the data to InfluxDB, please fill the exact names into line 31 in [connector.py](connector.py).
 
-## Installation Instructions (localy)
+## Installation Instructions (localy) :potato:
 
 1. **Set Up Python Environment:**
    - Ensure Python 3.x is installed on your system.
@@ -94,9 +96,9 @@ There is a [dockerfile](Dockerfile) provided in this repository which allows you
 
 ## Notes
 
-- This project requires an active internet connection for the Meross API to function.
-- Ensure your InfluxDB instance is properly set up and accessible from the script.
-- Handle your credentials securely and avoid exposing them in public or unsecured files.
+- This project requires an active internet connection for the Meross API to function :trollface:.
+- Ensure your InfluxDB instance is properly set up and accessible from the script :accessibility:.
+- Handle your credentials securely and avoid exposing them in public or unsecured files :bowtie:.
 
 ## Troubleshooting
 
