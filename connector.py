@@ -18,7 +18,7 @@ def load_credentials(filename):
                 value = '='.join(parts[1:])  # This handles the case where the value contains '='
                 credentials[key] = value
     except FileNotFoundError:
-        print(f"Using system environment credentials.")
+        print(f"Using system environment variables.")
         return {}
     return credentials
 
