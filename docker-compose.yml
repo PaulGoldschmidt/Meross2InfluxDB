@@ -7,7 +7,7 @@ services:
     environment:
       MEROSS_EMAIL: user_email@example.com
       MEROSS_PASSWORD: user_password
-      API_BASE_URL: http://user-api-base-url
+      API_BASE_URL: http://user-api-base-url # iotx-us.meross.com or iotx-eu.meross.com or iotx-ap.meross.com
       INFLUXDB_URL: http://user-influxdb-url
       INFLUXDB_TOKEN: user_token
       INFLUXDB_ORG: user_org
