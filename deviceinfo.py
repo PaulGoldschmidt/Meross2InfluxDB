@@ -19,7 +19,7 @@ def load_credentials(filename):
         return {}
     return credentials
 
-credentials = load_credentials('credentials.txt')
+credentials = load_credentials('config.env')
 EMAIL = credentials['MEROSS_EMAIL']
 PASSWORD = credentials['MEROSS_PASSWORD']
 

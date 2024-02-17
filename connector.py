@@ -8,34 +8,35 @@ from meross_iot.controller.mixins.electricity import ElectricityMixin
 from meross_iot.http_api import MerossHttpClient
 from meross_iot.manager import MerossManager
 
-def load_credentials(filename):
-    credentials = {}
+def load_config(filename):
+    configs = {}
     try:
         with open(filename, 'r') as file:
             for line in file:
                 parts = line.strip().split('=')
                 key = parts[0]
                 value = '='.join(parts[1:])  # This handles the case where the value contains '='
-                credentials[key] = value
+                configs[key] = value
     except FileNotFoundError:
         print(f"Using system environment variables.")
         return {}
-    return credentials
+    return configs
 
-credentials = load_credentials('credentials.txt')
-EMAIL = os.environ.get('MEROSS_EMAIL') or credentials['MEROSS_EMAIL']
-PASSWORD = os.environ.get('MEROSS_PASSWORD') or credentials['MEROSS_PASSWORD']
-INFLUXDB_URL = os.environ.get('INFLUXDB_URL') or credentials['INFLUXDB_URL']
-INFLUXDB_TOKEN = os.environ.get('INFLUXDB_TOKEN') or credentials['INFLUXDB_TOKEN']
-INFLUXDB_ORG = os.environ.get('INFLUXDB_ORG') or credentials['INFLUXDB_ORG']
-INFLUXDB_BUCKET = os.environ.get('INFLUXDB_BUCKET') or credentials['INFLUXDB_BUCKET']
-API_BASE_URL = os.environ.get('API_BASE_URL') or credentials['API_BASE_URL']
+config = load_config('config.env')
+EMAIL = os.environ.get('MEROSS_EMAIL') or config['MEROSS_EMAIL']
+PASSWORD = os.environ.get('MEROSS_PASSWORD') or config['MEROSS_PASSWORD']
+INFLUXDB_URL = os.environ.get('INFLUXDB_URL') or config['INFLUXDB_URL']
+INFLUXDB_TOKEN = os.environ.get('INFLUXDB_TOKEN') or config['INFLUXDB_TOKEN']
+INFLUXDB_ORG = os.environ.get('INFLUXDB_ORG') or config['INFLUXDB_ORG']
+INFLUXDB_BUCKET = os.environ.get('INFLUXDB_BUCKET') or config['INFLUXDB_BUCKET']
+API_BASE_URL = os.environ.get('API_BASE_URL') or config['API_BASE_URL']
+FETCH_INTERVAL = os.environ.get('FETCH_INTERVAL') or config['FETCH_INTERVAL']
 
 # List of device names to monitor
 device_names_env = os.environ.get('DEVICE_NAMES_TO_MONITOR')
-device_names_to_monitor = device_names_env.split(',') if device_names_env else credentials['DEVICE_NAMES_TO_MONITOR'].split(',')
+device_names_to_monitor = device_names_env.split(',') if device_names_env else config['DEVICE_NAMES_TO_MONITOR'].split(',')
 
-async def main(fetch_interval):
+async def main(FETCH_INTERVAL):
     http_api_client = await MerossHttpClient.async_from_user_password(api_base_url=API_BASE_URL, email=EMAIL, password=PASSWORD)
     manager = MerossManager(http_client=http_api_client)
     await manager.async_init()
@@ -46,7 +47,11 @@ async def main(fetch_interval):
 
     try:
         while True:
-            devs = [dev for dev in manager.find_devices(device_class=ElectricityMixin) if dev.name in device_names_to_monitor]
+            if device_names_to_monitor != "ALL":
+                devs = [dev for dev in manager.find_devices(device_class=ElectricityMixin) if dev.name in device_names_to_monitor]
+            else: #If all devices shell be monitored
+                devs = manager.find_devices(device_class=ElectricityMixin)
+
             if len(devs) < 1:
                 print("No device to monitor from given list (" + str(device_names_to_monitor) + ") found :(...")
             else:
@@ -68,7 +73,7 @@ async def main(fetch_interval):
                     write_api.write(bucket=INFLUXDB_BUCKET, org=INFLUXDB_ORG, record=point)
                     print(f"Write to InfluxDB successful for device: {dev.name} with power: {power} W, Voltage: {voltage} V and Current: {current} A")
 
-            await asyncio.sleep(fetch_interval)
+            await asyncio.sleep(FETCH_INTERVAL)
 
     except KeyboardInterrupt:
         print("Interrupted by user, closing...")
@@ -79,10 +84,9 @@ async def main(fetch_interval):
         influxdb_client.close()
 
 if __name__ == '__main__':
-    fetch_interval = 20  # Set your desired interval in seconds
     print("Starting MerossToInfluxDB by P3G3, Version 2.1")
     if os.name == 'nt':
         asyncio.set_event_loop_policy(asyncio.WindowsSelectorEventLoopPolicy())
     loop = asyncio.get_event_loop()
-    loop.run_until_complete(main(fetch_interval))
+    loop.run_until_complete(main(FETCH_INTERVAL))
     loop.close()

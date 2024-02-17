@@ -13,3 +13,4 @@ services:
       INFLUXDB_ORG: user_org
       INFLUXDB_BUCKET: user_bucket
       DEVICE_NAMES_TO_MONITOR: DEVICE1,DEVICE2
+      FETCH_INTERVAL: 20
