@@ -31,6 +31,7 @@ INFLUXDB_ORG = os.environ.get('INFLUXDB_ORG') or config['INFLUXDB_ORG']
 INFLUXDB_BUCKET = os.environ.get('INFLUXDB_BUCKET') or config['INFLUXDB_BUCKET']
 API_BASE_URL = os.environ.get('API_BASE_URL') or config['API_BASE_URL']
 FETCH_INTERVAL = os.environ.get('FETCH_INTERVAL') or config['FETCH_INTERVAL']
+DEBUG = os.environ.get('DEBUG') or config['DEBUG']
 
 # List of device names to monitor
 device_names_env = os.environ.get('DEVICE_NAMES_TO_MONITOR')
@@ -53,7 +54,7 @@ async def main(FETCH_INTERVAL):
                 devs = manager.find_devices(device_class=ElectricityMixin)
 
             if len(devs) < 1:
-                print("No device to monitor from given list (" + str(device_names_to_monitor) + ") found :(...")
+                if DEBUG: print("No device to monitor from given list (" + str(device_names_to_monitor) + ") found :(...")
             else:
                 for index, dev in enumerate(devs):
                     await dev.async_update()
@@ -71,7 +72,7 @@ async def main(FETCH_INTERVAL):
                     # Writing data to InfluxDB
                     point = Point("meross_data").tag("device", dev.name).field("power", power).field("voltage", voltage).field("current", current)
                     write_api.write(bucket=INFLUXDB_BUCKET, org=INFLUXDB_ORG, record=point)
-                    print(f"Write to InfluxDB successful for device: {dev.name} with power: {power} W, Voltage: {voltage} V and Current: {current} A")
+                    if DEBUG: print(f"Write to InfluxDB successful for device: {dev.name} with power: {power} W, Voltage: {voltage} V and Current: {current} A")
 
             await asyncio.sleep(FETCH_INTERVAL)
 
@@ -84,9 +85,11 @@ async def main(FETCH_INTERVAL):
         influxdb_client.close()
 
 if __name__ == '__main__':
-    print("Starting MerossToInfluxDB by P3G3, Version 2.1")
+    print("##############################################")
+    print("Starting MerossToInfluxDB by p3g3, Version 2.2")
+    print("##############################################")
     if os.name == 'nt':
         asyncio.set_event_loop_policy(asyncio.WindowsSelectorEventLoopPolicy())
     loop = asyncio.get_event_loop()
-    loop.run_until_complete(main(FETCH_INTERVAL))
+    loop.run_until_complete(main(int(FETCH_INTERVAL)))
     loop.close()

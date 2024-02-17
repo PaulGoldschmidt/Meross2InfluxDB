@@ -5,23 +5,23 @@ from meross_iot.controller.mixins.electricity import ElectricityMixin
 from meross_iot.http_api import MerossHttpClient
 from meross_iot.manager import MerossManager
 
-def load_credentials(filename):
-    credentials = {}
+def load_config(filename):
+    config = {}
     try:
         with open(filename, 'r') as file:
             for line in file:
                 parts = line.strip().split('=')
                 key = parts[0]
                 value = '='.join(parts[1:])  # This handles the case where the value contains '='
-                credentials[key] = value
+                config[key] = value
     except FileNotFoundError:
         print(f"Using system environment variables.")
         return {}
-    return credentials
+    return config
 
-credentials = load_credentials('config.env')
-EMAIL = credentials['MEROSS_EMAIL']
-PASSWORD = credentials['MEROSS_PASSWORD']
+config = load_config('config.env')
+EMAIL = config['MEROSS_EMAIL']
+PASSWORD = config['MEROSS_PASSWORD']
 
 
 async def main():
