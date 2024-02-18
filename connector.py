@@ -48,10 +48,10 @@ async def main(FETCH_INTERVAL):
 
     try:
         while True:
-            if device_names_to_monitor != "ALL":
-                devs = [dev for dev in manager.find_devices(device_class=ElectricityMixin) if dev.name in device_names_to_monitor]
-            else: #If all devices shell be monitored
+            if 'ALL' in str(device_names_to_monitor):
                 devs = manager.find_devices(device_class=ElectricityMixin)
+            else: #If all devices shell be monitored
+                devs = [dev for dev in manager.find_devices(device_class=ElectricityMixin) if dev.name in device_names_to_monitor]
 
             if len(devs) < 1:
                 if DEBUG: print("No device to monitor from given list (" + str(device_names_to_monitor) + ") found :(...")
