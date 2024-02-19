@@ -77,7 +77,7 @@ async def main(FETCH_INTERVAL):
             await asyncio.sleep(FETCH_INTERVAL)
 
     except KeyboardInterrupt:
-        print("Interrupted by user, closing...")
+        if DEBUG: print("Interrupted by user, closing...")
 
     finally:
         manager.close()
@@ -86,7 +86,7 @@ async def main(FETCH_INTERVAL):
 
 if __name__ == '__main__':
     print("##############################################")
-    print("Starting MerossToInfluxDB by p3g3, Version 2.2")
+    print("Starting MerossToInfluxDB by p3g3, Version 2.4")
     if DEBUG: print(f"         DEBUG LOGGING ENABLED.    ")
     print("##############################################")
     if os.name == 'nt':
