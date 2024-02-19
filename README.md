@@ -37,7 +37,7 @@ docker run -d --restart unless-stopped --name MerossToInfluxDB \
 - An InfluxDB server (either local or remote) to store the data.
 
 ## Testing your meross setup & get device overview
-In order to test the meross setup and see all devices that are currently available, the script [deviceinfo.py](deviceinfo.py) is included in this repository. After filling out the [credentials.txt](credentials.txt.example) file with your credentials and removing the .example file ending, run the device info script once to get an overview over all avaiable devices. For each device you want to write the data to InfluxDB, please fill the exact names into line 31 in [connector.py](connector.py).
+In order to test the meross setup and see all devices that are currently available, the script [deviceinfo.py](deviceinfo.py) is included in this repository. After filling out the [config.env](config.env.example) file with your credentials and removing the .example file ending, run the device info script once to get an overview over all avaiable devices. For each device you want to write the data to InfluxDB, please fill the exact names into line 31 in [connector.py](connector.py).
 
 ## Installation Instructions (localy) :potato:
 
@@ -57,7 +57,7 @@ In order to test the meross setup and see all devices that are currently availab
      ```
 
 3. **Configuration:**
-   - Create a `credentials.txt` file in the project directory with the following content, filling in your own details (see [credentials.txt.example](credentials.txt.example)):
+   - Create a `config.env` file in the project directory with the following content, filling in your own details (see [config.env.example](config.env.example)):
      ```
      MEROSS_EMAIL=your_meross_account_email
      MEROSS_PASSWORD=your_meross_account_password
