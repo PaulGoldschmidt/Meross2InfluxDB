@@ -31,7 +31,7 @@ INFLUXDB_ORG = os.environ.get('INFLUXDB_ORG') or config['INFLUXDB_ORG']
 INFLUXDB_BUCKET = os.environ.get('INFLUXDB_BUCKET') or config['INFLUXDB_BUCKET']
 API_BASE_URL = os.environ.get('API_BASE_URL') or config['API_BASE_URL']
 FETCH_INTERVAL = os.environ.get('FETCH_INTERVAL') or config['FETCH_INTERVAL']
-DEBUG = os.environ.get('DEBUG') or config['DEBUG']
+DEBUG = os.environ.get('DEBUG') or config.get('DEBUG', '')
 
 # List of device names to monitor
 device_names_env = os.environ.get('DEVICE_NAMES_TO_MONITOR')
