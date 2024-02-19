@@ -87,6 +87,7 @@ async def main(FETCH_INTERVAL):
 if __name__ == '__main__':
     print("##############################################")
     print("Starting MerossToInfluxDB by p3g3, Version 2.2")
+    if DEBUG: print(f"         DEBUG LOGGING ENABLED.    ")
     print("##############################################")
     if os.name == 'nt':
         asyncio.set_event_loop_policy(asyncio.WindowsSelectorEventLoopPolicy())
