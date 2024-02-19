@@ -67,6 +67,8 @@ In order to test the meross setup and see all devices that are currently availab
      INFLUXDB_ORG=your_influxdb_org
      INFLUXDB_BUCKET=your_influxdb_bucket
      DEVICE_NAMES_TO_MONITOR=your_devices_seperated_by_comma
+     FETCH_INTERVAL=20
+     #DEBUG=TRUE #comment out if shell be enabled.
      ```
     There are the following API Base regions, the one fitting your location:
     1. Asia-Pacific: "iotx-ap.meross.com"
@@ -94,6 +96,11 @@ There is a [dockerfile](Dockerfile) provided in this repository which allows you
 
 ## Additional Information
 I wrote a blog article in German about this Project. [Check it out!](https://p3g3.de/2024/02/meross-trifft-influxdb/)
+
+## Docker Hub
+This project is published multi-platform on the [Docker-Hub](https://hub.docker.com/r/quantensittich/meross2influxdb).
+
+
 ## Notes
 
 - This project requires an active internet connection for the Meross API to function :trollface:.
