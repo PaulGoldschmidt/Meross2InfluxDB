@@ -19,7 +19,7 @@ def load_credentials(filename):
         return {}
     return credentials
 
-credentials = load_credentials('credentials.txt')
+credentials = load_credentials('config.env')
 EMAIL = os.environ.get('MEROSS_EMAIL') or credentials['MEROSS_EMAIL']
 PASSWORD = os.environ.get('MEROSS_PASSWORD') or credentials['MEROSS_PASSWORD']
 INFLUXDB_URL = os.environ.get('INFLUXDB_URL') or credentials['INFLUXDB_URL']

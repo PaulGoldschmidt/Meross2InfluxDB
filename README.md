@@ -3,7 +3,7 @@
 ![Docker Pulls](https://img.shields.io/docker/pulls/quantensittich/meross2influxdb)
 # Meross2InfluxDB :chart_with_upwards_trend:
 
-MerossToInfluxDB is a project that enables the collection of electricity usage data from Meross smart devices and stores it in an InfluxDB database. This project is particularly useful for monitoring the energy consumption of specific devices in your home or office. The [connector.py](connector.py) script is designed to be run in the background and pushes every 20 seconds to influxdb the power metrics of the power plugs you choose. It was build upon the [MerossIOT-Library](https://github.com/albertogeniola/MerossIot) and currently (2024-01-27) working with the latest Meross API version. It utilizes the official python [InfluxDB Client](https://github.com/influxdata/influxdb-client-python) in order to publish data to your InfluxDB instance. Thanks to the authors of these packages which made this little project possible.
+Meross2InfluxDB is a project that enables the collection of electricity usage data from Meross smart devices and stores it in an InfluxDB database. This project is particularly useful for monitoring the energy consumption of specific devices in your home or office. The [connector.py](connector.py) script is designed to be run in the background and pushes every 20 seconds to influxdb the power metrics of the power plugs you choose. It was build upon the [MerossIOT-Library](https://github.com/albertogeniola/MerossIot) and currently (2024-01-27) working with the latest Meross API version. It utilizes the official python [InfluxDB Client](https://github.com/influxdata/influxdb-client-python) in order to publish data to your InfluxDB instance. Thanks to the authors of these packages which made this little project possible.
 It comes ready-to-use in a docker package which can be used multi-platform. Out-of-the box the script scrapes every 20 seconds the power metrics from the chosen devices and pushes them to InfluxDB. This can be changed in the source code quite easily.
 
 ## Features
@@ -92,7 +92,8 @@ In order to test the meross setup and see all devices that are currently availab
 
 There is a [dockerfile](Dockerfile) provided in this repository which allows you to build your own image of Meross2InfluxDB. If you want to build the image multi-platform, there is a [buildx-example-script](buildx.sh) provided aswell.
 
-
+## Additional Information
+I wrote a blog article in German about this Project. [Check it out!](https://p3g3.de/2024/02/meross-trifft-influxdb/)
 ## Notes
 
 - This project requires an active internet connection for the Meross API to function :trollface:.
